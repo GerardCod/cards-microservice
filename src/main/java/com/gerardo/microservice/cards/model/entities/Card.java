@@ -41,5 +41,5 @@ public class Card {
 	private Integer maxAge;
 	
 	@Column(nullable = false)
-	private String cardsApplicables;
+	private String cardName;
 }
