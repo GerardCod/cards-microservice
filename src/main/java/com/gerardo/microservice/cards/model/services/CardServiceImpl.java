@@ -1,5 +1,6 @@
 package com.gerardo.microservice.cards.model.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,8 @@ public class CardServiceImpl implements CardsService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<List<Card>> processProfile(ServiceInput userProfile) {
-		List<Card> result = repository.findCardByProfile(userProfile.getPassion(), userProfile.getMonthlySalary(), userProfile.getAge());
+	public Optional<List<Card>> processProfile(String passion, BigDecimal monthlySalary, Integer age) {
+		List<Card> result = repository.findCardByProfile(passion, monthlySalary, age);
 		
 		System.out.println(result);
 		

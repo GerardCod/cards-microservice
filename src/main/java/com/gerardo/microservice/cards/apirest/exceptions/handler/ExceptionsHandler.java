@@ -1,14 +1,17 @@
 package com.gerardo.microservice.cards.apirest.exceptions.handler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.gerardo.microservice.cards.apirest.exceptions.BadRequestException;
 import com.gerardo.microservice.cards.apirest.exceptions.NotFoundCardApplicableException;
 
 /**
@@ -36,11 +39,14 @@ public class ExceptionsHandler {
 	 * @param ex excepción de tipo BadRequestException.
 	 * @return regresa la respuesta del error.
 	 */
-	@ExceptionHandler(value = BadRequestException.class)
-	public ResponseEntity<Object> badRequest(BadRequestException ex) {
+	@ExceptionHandler(value = ConstraintViolationException.class)
+	public ResponseEntity<Object> badRequest(ConstraintViolationException ex) {
 		Map<String, Object> response = new HashMap<>();
+
+		List<ConstraintViolation<?>> errorsList = ex.getConstraintViolations().stream().toList();
+
 		response.put("cause", ex.getMessage());
-		response.put("errors", ex.getErrors());
+		response.put("errors", errorsList);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 	}
 	

@@ -1,26 +1,28 @@
 package com.gerardo.microservice.cards.apirest.controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gerardo.microservice.cards.apirest.exceptions.BadRequestException;
 import com.gerardo.microservice.cards.apirest.exceptions.NotFoundCardApplicableException;
-import com.gerardo.microservice.cards.model.dto.ServiceInput;
 import com.gerardo.microservice.cards.model.entities.Card;
 import com.gerardo.microservice.cards.model.services.CardsService;
 
 @RestController
 @RequestMapping("/cards")
+@Validated
 public class CardsController {
 	
 	@Autowired
@@ -37,14 +39,25 @@ public class CardsController {
 	 *  <li>404: Regresa un código notfound cuando el perfíl del usuario no es aplicable a alguna de las tarjetas.</li>
 	 * </ul>
 	 */
-	@PostMapping
-	public ResponseEntity<List<Card>> cardRequest(@Valid @RequestBody ServiceInput input, BindingResult validationResult) {
+	@GetMapping
+	public ResponseEntity<List<Card>> cardRequest(
+		@RequestParam("passion")
+		@NotNull(message = "Tu interés no puede ser nulo")
+		@NotBlank(message = "Tu interés no puede estar vacío")
+		String passion,
 		
-		if (validationResult.hasErrors()) {
-			throw new BadRequestException("Cuerpo de la petición mal formado", validationResult.getFieldErrors());
-		}
+		@RequestParam("salary")
+		@NotNull(message = "Tu salario no puede estar vacío")
+		@Min(value = 7000, message = "Tu salario mensual no puede ser menor a 7000.00")
+		BigDecimal monthlySalary,
+
+		@RequestParam("age")
+		@NotNull(message = "Tu edad no puede ser nula")
+		@Min(value = 18, message = "No puedes aplicar si eres menor de edad")
+		Integer age
+	) {
 		
-		Optional<List<Card>> cardApplicable = service.processProfile(input);
+		Optional<List<Card>> cardApplicable = service.processProfile(passion, monthlySalary, age);
 		
 		if (!cardApplicable.isPresent()) {
 			throw new NotFoundCardApplicableException("No puedes aplicar a alguna de las tarjetas");

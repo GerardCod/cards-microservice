@@ -22,7 +22,7 @@ justo al lado del botón de ejecución de este IDE.
 Una vez que el proyecto esté en ejecución, se puede utilizar Postman o Insonmia para realizar una petición GET a la siguiente url localhost:8080/api/v1/cards. Dicha url necesita recibir los siguientes parámetros:
 
 - passion.
-- monthlySalary.
+- salary.
 - age.
 
 ### Nota
