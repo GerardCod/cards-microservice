@@ -1,5 +1,6 @@
 package com.gerardo.microservice.cards.apirest.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gerardo.microservice.cards.apirest.exceptions.BadRequestException;
 import com.gerardo.microservice.cards.apirest.exceptions.NotFoundCardApplicableException;
-import com.gerardo.microservice.cards.model.dto.CardType;
 import com.gerardo.microservice.cards.model.dto.ServiceInput;
+import com.gerardo.microservice.cards.model.entities.Card;
 import com.gerardo.microservice.cards.model.services.CardsService;
 
 @RestController
@@ -37,13 +38,13 @@ public class CardsController {
 	 * </ul>
 	 */
 	@PostMapping
-	public ResponseEntity<CardType> cardRequest(@Valid @RequestBody ServiceInput input, BindingResult validationResult) {
+	public ResponseEntity<List<Card>> cardRequest(@Valid @RequestBody ServiceInput input, BindingResult validationResult) {
 		
 		if (validationResult.hasErrors()) {
 			throw new BadRequestException("Cuerpo de la petición mal formado", validationResult.getFieldErrors());
 		}
 		
-		Optional<CardType> cardApplicable = service.processProfile(input);
+		Optional<List<Card>> cardApplicable = service.processProfile(input);
 		
 		if (!cardApplicable.isPresent()) {
 			throw new NotFoundCardApplicableException("No puedes aplicar a alguna de las tarjetas");

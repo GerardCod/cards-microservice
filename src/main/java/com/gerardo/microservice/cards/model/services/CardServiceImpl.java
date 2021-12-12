@@ -1,5 +1,6 @@
 package com.gerardo.microservice.cards.model.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,13 @@ public class CardServiceImpl implements CardsService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<CardType> processProfile(ServiceInput userProfile) {
-		Card result = repository.findCardByProfile(userProfile.getPassion(), userProfile.getMonthlySalary(), userProfile.getAge());
+	public Optional<List<Card>> processProfile(ServiceInput userProfile) {
+		List<Card> result = repository.findCardByProfile(userProfile.getPassion(), userProfile.getMonthlySalary(), userProfile.getAge());
 		
 		System.out.println(result);
 		
-		if (result != null) {
-			return Optional.of(new CardType(result.getCardsApplicables()));
+		if (result != null && !result.isEmpty()) {
+			return Optional.of(result);
 		}
 		
 		return Optional.empty();
