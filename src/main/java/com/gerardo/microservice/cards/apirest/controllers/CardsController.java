@@ -31,8 +31,9 @@ public class CardsController {
 	
 	/**
 	 * Petición get que permite conocer al usuario los tipos de tarjetas a los que puede aplicar.
-	 * @param input Cuerpo de la petición.
-	 * @param validationResult Resultado de la validación del cuerpo de la petición.
+	 * @param passion pasatiempo o pasión del usuario.
+	 * @param monthlySalary salario mensual del usuario.
+	 * @param age edad del usuario.
 	 * @return
 	 * <ul>
 	 * 	<li>200: Regresa un objeto ResponseEntity con la información de la tarjeta aplicable al usuario.</li>
