@@ -26,8 +26,6 @@ public class CardServiceImpl implements CardsService {
 	public Optional<List<Card>> processProfile(String passion, BigDecimal monthlySalary, Integer age) {
 		List<Card> result = repository.findCardByProfile(passion.toUpperCase(), monthlySalary, age);
 		
-		System.out.println(result);
-		
 		if (result != null && !result.isEmpty()) {
 			return Optional.of(result);
 		}
