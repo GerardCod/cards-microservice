@@ -3,13 +3,11 @@
 Este es un ejercicio de microservicios para conocer los tipos de tarjetas a los que podemos aplicar de acuerdo a nuestros
 gustos, salario mensual y edad.
 
-
 ## Tecnologías y frameworks utilizados
 
 - Java 11.
 - Spring Boot 2.6.1.
-- JUnit.
-- Mockito.
+- JUnit 5.
 
 ## ¿Cómo correr el proyecto?
 
@@ -19,7 +17,7 @@ justo al lado del botón de ejecución de este IDE.
 
 ## Consumo de la API
 
-Una vez que el proyecto esté en ejecución, se puede utilizar Postman o Insonmia para realizar una petición GET a la siguiente url localhost:8080/api/v1/cards. Dicha url necesita recibir los siguientes parámetros:
+Una vez que el proyecto esté en ejecución, se puede utilizar Postman o Insonmia para realizar una petición GET a la siguiente url **localhost:8080/api/v1/cards**. Dicha url necesita recibir los siguientes parámetros:
 
 - passion.
 - salary.
@@ -29,8 +27,7 @@ Una vez que el proyecto esté en ejecución, se puede utilizar Postman o Insonmi
 
 La URI regresará un código 400 si:
 
-- Se envía una edad menor a 18
-- Se envía un salario mensual menor a 7,000.00
+- Alguno de los parámetros de la petición no es incluido.
 
 La URI regresará un código 404 si:
 

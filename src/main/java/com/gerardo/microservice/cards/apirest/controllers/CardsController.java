@@ -37,7 +37,7 @@ public class CardsController {
 	 * @return
 	 * <ul>
 	 * 	<li>200: Regresa un objeto ResponseEntity con la información de la tarjeta aplicable al usuario.</li>
-	 *  <li>400: Regresa un código badrequest cuando el perfíl del usuario si es menor de edad o si tiene un ingreso mensual menor a 7000.</li>
+	 *  <li>400: Regresa un código badrequest cuando haga falta alguno de los parámetros para el procesamiento de la petición.</li>
 	 *  <li>404: Regresa un código notfound cuando el perfíl del usuario no es aplicable a alguna de las tarjetas.</li>
 	 * </ul>
 	 */
