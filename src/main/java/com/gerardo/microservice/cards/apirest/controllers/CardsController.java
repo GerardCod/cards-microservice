@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +22,15 @@ import com.gerardo.microservice.cards.model.services.CardsService;
 @Validated
 public class CardsController {
 	
-	@Autowired
 	private CardsService service;
+
+	@Autowired
+	public CardsController(CardsService service) {
+		this.service = service;
+	}
 	
 	/**
-	 * Petición post que permite conocer al usuario los tipos de tarjetas a los que puede aplicar.
+	 * Petición get que permite conocer al usuario los tipos de tarjetas a los que puede aplicar.
 	 * @param input Cuerpo de la petición.
 	 * @param validationResult Resultado de la validación del cuerpo de la petición.
 	 * @return
@@ -41,29 +42,24 @@ public class CardsController {
 	 */
 	@GetMapping
 	public ResponseEntity<List<Card>> cardRequest(
-		@RequestParam("passion")
-		@NotNull(message = "Tu interés no puede ser nulo")
-		@NotBlank(message = "Tu interés no puede estar vacío")
+		@RequestParam(name = "passion", required = true)
 		String passion,
 		
-		@RequestParam("salary")
-		@NotNull(message = "Tu salario no puede estar vacío")
-		@Min(value = 7000, message = "Tu salario mensual no puede ser menor a 7000.00")
+		@RequestParam(name = "salary", required = true)
 		BigDecimal monthlySalary,
 
-		@RequestParam("age")
-		@NotNull(message = "Tu edad no puede ser nula")
-		@Min(value = 18, message = "No puedes aplicar si eres menor de edad")
+		@RequestParam(name = "age", required = true)
 		Integer age
 	) {
 		
 		Optional<List<Card>> cardApplicable = service.processProfile(passion, monthlySalary, age);
 		
-		if (!cardApplicable.isPresent()) {
+		if (cardApplicable.isEmpty()) {
 			throw new NotFoundCardApplicableException("No puedes aplicar a alguna de las tarjetas");
 		}
 		
 		return ResponseEntity.ok(cardApplicable.get());
 	}
+	
 	
 }

@@ -14,13 +14,17 @@ import com.gerardo.microservice.cards.model.repositories.CardsRepository;
 @Service
 public class CardServiceImpl implements CardsService {
 	
-	@Autowired
 	private CardsRepository repository;
+
+	@Autowired
+	public CardServiceImpl(CardsRepository repository) {
+		this.repository = repository;
+	}
 	
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<List<Card>> processProfile(String passion, BigDecimal monthlySalary, Integer age) {
-		List<Card> result = repository.findCardByProfile(passion, monthlySalary, age);
+		List<Card> result = repository.findCardByProfile(passion.toUpperCase(), monthlySalary, age);
 		
 		System.out.println(result);
 		
