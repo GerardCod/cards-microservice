@@ -1,5 +1,6 @@
 package com.gerardo.microservice.cards;
 
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,11 +18,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(CardsController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class CardControllerWebTests {
   
   @Autowired
@@ -60,10 +64,9 @@ public class CardControllerWebTests {
   @DisplayName("When the profile is valid, it should return cards")
   void validProfileShouldReturnCards() throws Exception {
 
-    when(service.processProfile("shopping", new BigDecimal(8000), 18))
-      .thenReturn(Optional.of(cards));
+    doReturn(Optional.of(cards)).when(service).processProfile("shopping", new BigDecimal(8000), 18);
 
-    mvc.perform(get("/api/v1/cards")
+    mvc.perform(get("/cards")
     		.queryParam("passion", "shopping")
     		.queryParam("salary", "8000")
     		.queryParam("age", "18"))
@@ -72,12 +75,28 @@ public class CardControllerWebTests {
   
   @Test
   @DisplayName("When there is a param missing, it should return status 400")
-  void missingParamShouldThrowException() throws Exception {
-	  
-	  mvc.perform(get("/api/v1/cards")
+  void missingParamShouldReturnBadRequest() throws Exception {
+	  doReturn(Optional.empty())
+              .when(service)
+              .processProfile("shopping", new BigDecimal(8000), null);
+
+	  mvc.perform(get("/cards")
 			  .queryParam("passion", "Shopping")
 			  .queryParam("salary", "8000"))
 	  .andExpect(status().isBadRequest());
 	  
+  }
+
+  @Test
+  @DisplayName("When the profile is invalid, should return not found")
+  void invalidProfileShouldReturnNotFound() throws Exception {
+    when(service.processProfile("languages", new BigDecimal(6000), 17))
+            .thenReturn(Optional.empty());
+
+    mvc.perform(get("/cards")
+            .queryParam("passion", "languages")
+            .queryParam("salary", "6000")
+            .queryParam("age", "17"))
+            .andExpect(status().isNotFound());
   }
 }
