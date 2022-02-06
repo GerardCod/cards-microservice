@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gerardo.microservice.cards.apirest.exceptions.NotFoundCardApplicableException;
-import com.gerardo.microservice.cards.model.entities.Card;
-import com.gerardo.microservice.cards.model.services.CardsService;
+import com.gerardo.microservice.cards.apirest.model.entities.Card;
+import com.gerardo.microservice.cards.apirest.services.CardsService;
 
 @RestController
 @RequestMapping("/cards")
 @Validated
 public class CardsController {
 	
-	private CardsService service;
+	private final CardsService service;
 
 	@Autowired
 	public CardsController(CardsService service) {
@@ -53,13 +53,8 @@ public class CardsController {
 		Integer age
 	) {
 		
-		Optional<List<Card>> cardApplicable = service.processProfile(passion, monthlySalary, age);
-		
-		if (cardApplicable.isEmpty()) {
-			throw new NotFoundCardApplicableException("No puedes aplicar a alguna de las tarjetas");
-		}
-		
-		return ResponseEntity.ok(cardApplicable.get());
+		List<Card> cardsApplicable = service.processProfile(passion, monthlySalary, age);
+		return ResponseEntity.ok(cardsApplicable);
 	}
 	
 	

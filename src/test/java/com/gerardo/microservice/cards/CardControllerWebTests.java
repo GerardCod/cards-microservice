@@ -10,16 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.gerardo.microservice.cards.apirest.controllers.CardsController;
-import com.gerardo.microservice.cards.model.entities.Card;
-import com.gerardo.microservice.cards.model.services.CardsService;
+import com.gerardo.microservice.cards.apirest.model.entities.Card;
+import com.gerardo.microservice.cards.apirest.services.CardsService;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -91,7 +89,7 @@ public class CardControllerWebTests {
   @DisplayName("When the profile is invalid, should return not found")
   void invalidProfileShouldReturnNotFound() throws Exception {
     when(service.processProfile("languages", new BigDecimal(6000), 17))
-            .thenReturn(Optional.empty());
+            .thenReturn(new ArrayList<>());
 
     mvc.perform(get("/cards")
             .queryParam("passion", "languages")

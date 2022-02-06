@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.gerardo.microservice.cards.model.entities.Card;
-import com.gerardo.microservice.cards.model.repositories.CardsRepository;
+import com.gerardo.microservice.cards.apirest.model.entities.Card;
+import com.gerardo.microservice.cards.apirest.repositories.CardsRepository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

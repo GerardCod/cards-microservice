@@ -1,4 +1,4 @@
-package com.gerardo.microservice.cards.model.repositories;
+package com.gerardo.microservice.cards.apirest.repositories;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.gerardo.microservice.cards.model.entities.Card;
+import com.gerardo.microservice.cards.apirest.model.entities.Card;
 
 @Repository
 public interface CardsRepository extends CrudRepository<Card, Long> {

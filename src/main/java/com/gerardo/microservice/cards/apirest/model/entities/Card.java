@@ -1,4 +1,4 @@
-package com.gerardo.microservice.cards.model.entities;
+package com.gerardo.microservice.cards.apirest.model.entities;
 
 import java.math.BigDecimal;
 

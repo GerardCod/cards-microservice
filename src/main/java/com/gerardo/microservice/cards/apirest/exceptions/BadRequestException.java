@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.validation.FieldError;
 
-import com.gerardo.microservice.cards.model.dto.ServiceInputError;
+import com.gerardo.microservice.cards.apirest.model.dto.ServiceInputError;
 
 import lombok.Getter;
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 import com.gerardo.microservice.cards.apirest.controllers.CardsController;
 import com.gerardo.microservice.cards.apirest.exceptions.NotFoundCardApplicableException;
-import com.gerardo.microservice.cards.model.entities.Card;
+import com.gerardo.microservice.cards.apirest.model.entities.Card;
 
 @SpringBootTest
 class CardsGenerationServiceApplicationTests {
