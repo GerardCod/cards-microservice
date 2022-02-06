@@ -30,7 +30,7 @@ public class CardsController {
 	}
 	
 	/**
-	 * Petición get que permite conocer al usuario los tipos de tarjetas a los que puede aplicar.
+	 * Endpoint para conocer las tarjetas a las que puede aplicar un cliente según su perfil.
 	 * @param passion pasatiempo o pasión del usuario.
 	 * @param monthlySalary salario mensual del usuario.
 	 * @param age edad del usuario.
